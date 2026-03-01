@@ -1,4 +1,4 @@
-# 🔐 Hybrid Identity Lab — Azure AD Connect + On-Prem AD
+#  Hybrid Identity Lab — Azure AD Connect + On-Prem AD
 
 > A hands-on lab simulating a real-world enterprise hybrid identity environment using Azure Active Directory (Entra ID), Azure AD Connect, and a Windows Server Active Directory domain.
 
@@ -24,7 +24,7 @@
 └─────────────────────────────────────────────────────────┘
 ```
 
-## 🎯 What This Lab Demonstrates
+##  What This Lab Demonstrates
 
 - Provisioning an on-premises Active Directory domain in Azure (simulated hybrid)
 - Installing and configuring **Azure AD Connect** (Entra Connect) with Password Hash Sync
@@ -34,7 +34,7 @@
 - Hybrid Azure AD Join configuration
 - Break-glass account setup and monitoring
 
-## 🛠️ Prerequisites
+## Prerequisites
 
 - Azure subscription (Free tier works for lab)
 - Azure CLI installed (`az --version`)
@@ -42,7 +42,7 @@
 - PowerShell 7+ (for DSC scripts)
 - Basic understanding of Active Directory and Azure AD
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 hybrid-identity-lab/
@@ -66,7 +66,7 @@ hybrid-identity-lab/
     └── TROUBLESHOOTING.md
 ```
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Clone and configure
 
@@ -102,7 +102,7 @@ terraform apply tfplan
 # Follow the GUI wizard or use express settings for lab
 ```
 
-## 🔑 Key Configuration Decisions
+##  Key Configuration Decisions
 
 | Setting | Value | Why |
 |---|---|---|
@@ -112,34 +112,15 @@ terraform apply tfplan
 | Seamless SSO | Enabled | No password prompts on domain PCs |
 | Password Writeback | Enabled | SSPR works from cloud → on-prem |
 
-## 📊 Test Scenarios
 
-After deployment, validate these scenarios:
 
-- [ ] Create user in on-prem AD → appears in Entra ID within 30 min
-- [ ] Change password on-prem → syncs to cloud (Password Hash Sync)
-- [ ] Reset password in Entra ID → writes back to on-prem (Password Writeback)
-- [ ] Disable user on-prem → account blocked in Azure within sync cycle
-- [ ] Group membership sync → Azure group reflects on-prem changes
-
-## 🔍 Interview Talking Points
-
-**Q: Why Password Hash Sync over Pass-Through Authentication?**
-> PHS stores a hash of the password hash in Azure AD, meaning cloud auth still works if the on-prem DC is down. PTA requires on-prem agent availability. For most orgs, PHS + Seamless SSO provides the right balance of simplicity, resilience, and user experience.
-
-**Q: What's the difference between Hybrid AAD Join and AAD Join?**
-> Hybrid AAD Join = device is registered in BOTH on-prem AD and Entra ID. Needed for legacy apps that require Kerberos/NTLM. Pure AAD Join = cloud-only, modern auth only. Most migration paths go Hybrid → Pure AAD Join over time.
-
-**Q: How would you scope what syncs to Azure AD?**
-> OU-based filtering in AAD Connect wizard, or attribute-based filtering (e.g., only sync users where `extensionAttribute1 = "SyncToCloud"`). Always exclude service accounts, computer accounts you don't need, and administrative accounts.
-
-## 🧹 Cleanup
+##  Cleanup
 
 ```bash
 terraform destroy
 ```
 
-## 📚 References
+##  References
 
 - [Microsoft Entra Connect documentation](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/)
 - [Hybrid Identity Design Guide](https://learn.microsoft.com/en-us/azure/active-directory/hybrid/whatis-hybrid-identity)
